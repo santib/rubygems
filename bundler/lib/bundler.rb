@@ -578,6 +578,7 @@ EOF
       path = Pathname.new(file)
       contents = read_file(file)
       spec = if contents.start_with?("---") # YAML header
+        Kernel.require "psych"
         eval_yaml_gemspec(path, contents)
       else
         # Eval the gemspec from its parent directory, because some gemspecs
@@ -654,8 +655,6 @@ EOF
     private
 
     def eval_yaml_gemspec(path, contents)
-      require_relative "bundler/psyched_yaml"
-
       Gem::Specification.from_yaml(contents)
     rescue ::Psych::SyntaxError, ArgumentError, Gem::EndOfYAMLException, Gem::Exception
       eval_gemspec(path, contents)
