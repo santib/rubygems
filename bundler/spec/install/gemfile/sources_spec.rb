@@ -1459,7 +1459,7 @@ RSpec.describe "bundle install with gems on multiple sources" do
       path = "#{gem_repo4}/#{Gem::MARSHAL_SPEC_DIR}/pdf-writer-1.1.8.gemspec.rz"
       spec = Marshal.load(Bundler.rubygems.inflate(File.binread(path)))
       spec.instance_variable_set(:@required_rubygems_version, nil)
-      File.open(path, "w") do |f|
+      File.open(path, "wb") do |f|
         f.write Gem.deflate(Marshal.dump(spec))
       end
 
